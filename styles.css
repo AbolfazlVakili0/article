@@ -1,0 +1,52 @@
+body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      font-family: 'Vazir', sans-serif;
+    }
+
+    header {
+      padding: 4rem 0;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00fff7;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .article-card {
+      background-color: #1c1c1c;
+      border: 1px solid #2c2c2c;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .article-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px #00fff7aa;
+    }
+
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      color: #888;
+    }
+
+    a {
+      color: #00fff7;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
