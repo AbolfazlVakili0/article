@@ -9,9 +9,27 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
- <div id="header">
-  components/header.html
- </div>
+  <header>
+  <h1>💡 مقالات تکنولوژی</h1>
+  <p>نوشته‌هایی درباره دنیای برنامه‌نویسی، وب، گیت و آینده تکنولوژی!</p>
+</header>
+
+ <!-- <div id="header"></div> -->
+
+
+   <button onclick="openModal()">ورود</button>
+
+  <!-- پاپ‌آپ -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h3>ورود به سیستم</h3>
+      <input id="user" placeholder="نام‌کاربری">
+      <input id="pass" type="password" placeholder="رمز عبور">
+      <button onclick="login()">ورود</button>
+      <p id="msg" style="color: red;"></p>
+    </div>
+  </div>
+
 
 <main class="container py-5">
   <div class="row">
@@ -32,7 +50,7 @@
         <p>آیا هوش مصنوعی قراره جای ما رو بگیره یا ما قراره هوش مصنوعی رو کنترل کنیم؟</p>
         <a href="#">مطالعه مقاله</a>
       </div>
-    </div>
+    </div> 
 
     <!-- مقاله 3 -->
     <div class="col-md-6 col-lg-4">
@@ -45,19 +63,52 @@
 
   </div>
 </main>
-  <div id="footer"></div>
+  <!-- <div id="footer"></div> -->
 
-
- <script>
-    fetch('components/header.html')
-      .then(res => res.text())
-      .then(data => document.getElementById('header').innerHTML = data);
-
-    fetch('components/footer.html')
-      .then(res => res.text())
-      .then(data => document.getElementById('footer').innerHTML = data);
-  </script>
+<footer>
+  <p>© 2025 ابوالفضل وکیلی - تمام حقوق محفوظ است</p>
+</footer>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+async function login() {
+  const username = document.getElementById('user').value.trim();
+  const password = document.getElementById('pass').value.trim();
+  const msg = document.getElementById('msg');
+
+  if (!username || !password) return msg.textContent = 'همه فیلدها را پر کنید';
+
+  try {
+    const res = await fetch('https://login.digiscopezero.workers.dev/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      msg.style.color = 'green';
+      msg.textContent = `خوش آمدید ${data.user}!`;
+      // می‌توانید پاپ‌آپ را ببندید یا صفحه را عوض کنید
+    } else {
+      msg.textContent = data.error || 'خطا';
+    }
+  } catch (e) {
+    msg.textContent = 'خطای شبکه';
+  }
+}
+
+function openModal() {
+  document.getElementById('loginModal').style.display = 'flex';
+}
+
+// بستن پاپ‌آپ با کلیک بیرون
+window.onclick = (e) => {
+  if (e.target.id === 'loginModal') e.target.style.display = 'none';
+};
+    </script>
+  
 
 </body>
 </html>
