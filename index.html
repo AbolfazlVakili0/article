@@ -9,15 +9,15 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
+  <!-- <header>
   <h1>💡 مقالات تکنولوژی</h1>
   <p>نوشته‌هایی درباره دنیای برنامه‌نویسی، وب، گیت و آینده تکنولوژی!</p>
-</header>
+</header> -->
 
- <!-- <div id="header"></div> -->
+ <div id="header"></div>
 
 
-   <button onclick="openModal()">ورود</button>
+<button id="loginBtn" onclick="openModal()">ورود</button>
 
   <!-- پاپ‌آپ -->
   <div id="loginModal" class="modal">
@@ -63,11 +63,14 @@
 
   </div>
 </main>
-  <!-- <div id="footer"></div> -->
-
+  <div id="footer"></div>
+<!-- 
 <footer>
   <p>© 2025 ابوالفضل وکیلی - تمام حقوق محفوظ است</p>
-</footer>
+</footer> -->
+
+
+
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
@@ -76,7 +79,6 @@ async function login() {
   const username = document.getElementById('user').value.trim();
   const password = document.getElementById('pass').value.trim();
   const msg = document.getElementById('msg');
-
   if (!username || !password) return msg.textContent = 'همه فیلدها را پر کنید';
 
   try {
@@ -85,12 +87,23 @@ async function login() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
-
     const data = await res.json();
+
     if (res.ok) {
-      msg.style.color = 'green';
-      msg.textContent = `خوش آمدید ${data.user}!`;
-      // می‌توانید پاپ‌آپ را ببندید یا صفحه را عوض کنید
+      // ذخیره در localStorage
+      localStorage.setItem('loggedIn', username);
+
+      // بستن پاپ‌آپ
+      closeModal();
+
+      // پنهان کردن دکمه ورود
+      document.getElementById('loginBtn').style.display = 'none';
+
+      // نمایش پیام خوش‌آمد
+      const welcome = document.createElement('span');
+      welcome.textContent = `سلام ${username}`;
+      welcome.style.marginLeft = '1rem';
+      document.querySelector('header').appendChild(welcome);
     } else {
       msg.textContent = data.error || 'خطا';
     }
@@ -102,12 +115,22 @@ async function login() {
 function openModal() {
   document.getElementById('loginModal').style.display = 'flex';
 }
+function closeModal() {
+  document.getElementById('loginModal').style.display = 'none';
+}
 
-// بستن پاپ‌آپ با کلیک بیرون
-window.onclick = (e) => {
-  if (e.target.id === 'loginModal') e.target.style.display = 'none';
-};
-    </script>
+// بارگذاری مجدد: اگر قبلاً وارد شده بودیم
+window.addEventListener('DOMContentLoaded', () => {
+  const user = localStorage.getItem('loggedIn');
+  if (user) {
+    document.getElementById('loginBtn').style.display = 'none';
+    const welcome = document.createElement('span');
+    welcome.textContent = `سلام ${user}`;
+    welcome.style.marginLeft = '1rem';
+    document.querySelector('header').appendChild(welcome);
+  }
+});
+</script>
   
 
 </body>
